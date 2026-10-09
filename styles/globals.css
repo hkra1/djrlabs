@@ -1,22 +1,49 @@
+:root {
+  --bg-deep: #03060c;
+  --bg-mid: #070d18;
+  --text: #eef6ff;
+  --text-muted: rgba(238, 246, 255, 0.68);
+  --cyan: #5ce1ff;
+  --mint: #7dffc3;
+  --violet: #a78bfa;
+  --magenta: #f472b6;
+  --glass: rgba(255, 255, 255, 0.045);
+  --glass-strong: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-border-bright: rgba(92, 225, 255, 0.35);
+  --glow-cyan: 0 0 40px rgba(92, 225, 255, 0.25);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: Inter, "Segoe UI", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body,
 #__next {
   margin: 0;
   min-height: 100%;
-  background: #070b10;
-  color: #edf6ff;
-  font-family: Inter, "Segoe UI", sans-serif;
-  scroll-behavior: smooth;
-}
-
-* {
-  box-sizing: border-box;
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: var(--font-body);
 }
 
 body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 a {
@@ -32,4 +59,23 @@ button,
 input,
 textarea {
   font: inherit;
+}
+
+::selection {
+  background: rgba(92, 225, 255, 0.35);
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

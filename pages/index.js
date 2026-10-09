@@ -29,26 +29,37 @@ export default function Home() {
     <>
       <Head>
         <title>DJRLABS — Product Engineering Studio</title>
-        <meta name="description" content="DJRLABS is a product engineering studio blending STEM, research, art, design, software, and hardware." />
+        <meta
+          name="description"
+          content="DJRLABS is a product engineering studio blending STEM, research, art, design, software, and hardware."
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta property="og:title" content="DJRLABS" />
         <meta property="og:description" content="STEM, R&D, ARTS & DESIGN, SOFTWARE & HARDWARE." />
         <meta property="og:type" content="website" />
-        <meta name="theme-color" content="#0c1117" />
+        <meta name="theme-color" content="#03060c" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+          rel="stylesheet"
+        />
         <link rel="icon" href="/favicon.svg" />
         <meta property="og:image" content="https://djrlabs.fun/favicon.svg" />
       </Head>
 
-      <main className={styles.pageShell}>
-        <div className={styles.backdrop} aria-hidden="true" />
+      <div className={styles.backdrop} aria-hidden="true">
+        <div className={`${styles.orb} ${styles.orbA}`} />
+        <div className={`${styles.orb} ${styles.orbB}`} />
+        <div className={`${styles.orb} ${styles.orbC}`} />
+      </div>
 
+      <main className={styles.pageShell}>
         <header className={styles.header}>
-          <div className={styles.brandWrap}>
+          <a href="/" className={styles.brandWrap}>
             <span className={styles.logo}>DJR</span>
             <span className={styles.brandText}>LABS</span>
-          </div>
+          </a>
           <nav className={styles.nav} aria-label="Main navigation">
             <a href="#about">About</a>
             <a href="#projects">Projects</a>
@@ -60,10 +71,17 @@ export default function Home() {
           <div className={styles.heroContent}>
             <p className={styles.kicker}>Product engineering studio</p>
             <h1>Build bold ideas into world-class systems.</h1>
-            <p className={styles.lead}>DJRLABS brings together science, design, engineering, and product thinking to turn future-facing concepts into elegant, high-performance experiences.</p>
+            <p className={styles.lead}>
+              DJRLABS brings together science, design, engineering, and product thinking to turn
+              future-facing concepts into elegant, high-performance experiences.
+            </p>
             <div className={styles.ctaRow}>
-              <a className={styles.primaryButton} href="#projects">View work</a>
-              <a className={styles.secondaryButton} href="#contact">Start a conversation</a>
+              <a className={styles.primaryButton} href="#projects">
+                View work
+              </a>
+              <a className={styles.secondaryButton} href="#contact">
+                Start a conversation
+              </a>
             </div>
             <div className={styles.principles} aria-label="Core disciplines">
               {principles.map((item) => (
@@ -90,20 +108,32 @@ export default function Home() {
             </div>
             <div className={styles.quoteBox}>
               <span>Reference vision</span>
-              <p>“Design for the future, engineer for the present, and ship with conviction.”</p>
+              <p>
+                “Design for the future, engineer for the present, and ship with conviction.”
+              </p>
             </div>
           </div>
         </section>
 
-        <section id="about" className={styles.section}
-        >
+        <section id="about" className={styles.section}>
           <div className={styles.sectionHeader}>
             <p className={styles.sectionEyebrow}>About</p>
             <h2>We build at the intersection of technology, creativity, and execution.</h2>
           </div>
           <div className={styles.aboutGrid}>
-            <p>DJRLABS is a modern product studio spanning STEM, R&D, arts & design, software, and hardware. The operating model is simple: investigate deeply, prototype rapidly, and deliver with clarity.</p>
-            <p>Inspired by the product-first thinking of leaders like Elon Musk, Jeff Bezos, Steve Jobs, and Jensen Huang, the studio blends engineering discipline with bold creative ambition.</p>
+            <div className={styles.aboutCard}>
+              <p>
+                DJRLABS is a modern product studio spanning STEM, R&amp;D, arts &amp; design,
+                software, and hardware. The operating model is simple: investigate deeply,
+                prototype rapidly, and deliver with clarity.
+              </p>
+            </div>
+            <div className={styles.aboutCard}>
+              <p>
+                Inspired by product-first thinking from leaders across technology and design, the
+                studio blends engineering discipline with bold creative ambition.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -115,14 +145,16 @@ export default function Home() {
           <div className={styles.cardGrid}>
             {projects.map((project) => (
               <article key={project.title} className={styles.productCard}>
-                <div className={styles.cardTopline}>
-                  <span className={styles.cardTag}>Case study</span>
-                </div>
+                <span className={styles.cardTag}>Case study</span>
                 <h3>{project.title}</h3>
                 <p>{project.desc}</p>
                 <div className={styles.cardActions}>
-                  <a href={project.live} target="_blank" rel="noreferrer">Live preview</a>
-                  <a href={project.repo} target="_blank" rel="noreferrer">Repository</a>
+                  <a href={project.live} target="_blank" rel="noreferrer">
+                    Live preview →
+                  </a>
+                  <a href={project.repo} target="_blank" rel="noreferrer">
+                    Repository →
+                  </a>
                 </div>
               </article>
             ))}
@@ -137,11 +169,17 @@ export default function Home() {
 
           <div className={styles.contactWrap}>
             <div className={styles.contactInfo}>
-              <p>For collaborations, product exploration, and strategic prototypes, reach out.</p>
+              <p>
+                For collaborations, product exploration, and strategic prototypes, reach out.
+              </p>
               <a href="mailto:hello@djrlabs.fun">hello@djrlabs.fun</a>
             </div>
 
-            <form className={styles.form} action="https://formspree.io/f/your-form-id" method="POST">
+            <form
+              className={styles.form}
+              action="https://formspree.io/f/your-form-id"
+              method="POST"
+            >
               <label>
                 <span>Name</span>
                 <input type="text" name="name" placeholder="Your name" required />
@@ -152,9 +190,16 @@ export default function Home() {
               </label>
               <label>
                 <span>Project brief</span>
-                <textarea name="message" rows={4} placeholder="Tell us about your idea or challenge." required />
+                <textarea
+                  name="message"
+                  rows={4}
+                  placeholder="Tell us about your idea or challenge."
+                  required
+                />
               </label>
-              <button type="submit" className={styles.submitButton}>Send inquiry</button>
+              <button type="submit" className={styles.submitButton}>
+                Send inquiry
+              </button>
             </form>
           </div>
         </section>

@@ -1,4 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-  <rect width="48" height="48" rx="10" fill="#0b1016"/>
-  <path d="M12 32V16h7.4l7.2 10.5V16H33v16h-7.4L18.4 21.5V32H12z" fill="#8bdcff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5ce1ff"/>
+      <stop offset="1" stop-color="#7dffc3"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#03060c"/>
+  <rect x="2" y="2" width="60" height="60" rx="14" stroke="url(#g)" stroke-width="2" opacity="0.6"/>
+  <text x="32" y="40" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="18" fill="url(#g)" letter-spacing="1">DJR</text>
 </svg>
