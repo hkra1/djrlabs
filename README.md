@@ -1,25 +1,25 @@
-# DJR Labs
+# DJR Labs — Portfolio
 
-A static Next.js browser IDE deployed to [djrlabs.fun](https://djrlabs.fun) with GitHub Pages.
+This repository hosts a lightweight Next.js portfolio for DJRLABS. The site is built as a static export and deployed to GitHub Pages.
 
-## Local development
+Local development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open http://localhost:3000. The editor runs JavaScript in a sandboxed preview and saves drafts to local storage.
+Build & export
 
-## Deployment
+```bash
+npm run build
+# output is exported to ./out
+```
 
-Every push to `main` builds the static Next.js export and publishes it to `gh-pages` through GitHub Actions. The custom domain is declared in `public/CNAME`.
+Deployment
 
-For the first deployment, enable GitHub Pages in **Settings → Pages**, choose **Deploy from a branch**, and select `gh-pages` / `/ (root)`. Add these DNS A records at your DNS provider:
+GitHub Actions builds and deploys the site via GitHub Pages. The custom domain is set to `djrlabs.fun` in `public/CNAME`.
 
-- `185.199.108.153`
-- `185.199.109.153`
-- `185.199.110.153`
-- `185.199.111.153`
+Contributing
 
-Then return to Pages settings, confirm `djrlabs.fun` as the custom domain, and enable HTTPS after the certificate becomes available.
+Feel free to open issues or PRs. See `CONTRIBUTING.md` for guidelines.
