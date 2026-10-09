@@ -3,109 +3,165 @@ import styles from '../styles/Home.module.css';
 
 const projects = [
   {
-    title: 'Project Alpha',
-    desc: 'A short description of Project Alpha — a placeholder project to showcase layout and links.',
+    title: 'Quantum Systems',
+    desc: 'Research-driven product concept blending robotics, software, and human-centered design.',
     repo: '#',
     live: '#',
   },
   {
-    title: 'Project Beta',
-    desc: 'A short description of Project Beta — use this to highlight your work.',
+    title: 'Signal Studio',
+    desc: 'A design-first platform for prototyping interactive experiences and digital products.',
     repo: '#',
     live: '#',
   },
   {
-    title: 'Project Gamma',
-    desc: 'A short description of Project Gamma — replace with real content.',
+    title: 'Prototype Lab',
+    desc: 'Experimental work spanning software, hardware, interface systems, and product storytelling.',
     repo: '#',
     live: '#',
   },
 ];
 
+const principles = ['STEM', 'R&D', 'ARTS & DESIGN', 'SOFTWARE', 'HARDWARE'];
+
 export default function Home() {
   return (
     <>
       <Head>
-        <title>DJRLABS — Portfolio</title>
-        <meta name="description" content="DJRLABS — STEM, R&D, ARTS & DESIGN, SOFTWARE & HARDWARE." />
+        <title>DJRLABS — Product Engineering Studio</title>
+        <meta name="description" content="DJRLABS is a product engineering studio blending STEM, research, art, design, software, and hardware." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.svg" />
         <meta property="og:title" content="DJRLABS" />
         <meta property="og:description" content="STEM, R&D, ARTS & DESIGN, SOFTWARE & HARDWARE." />
         <meta property="og:type" content="website" />
+        <meta name="theme-color" content="#0c1117" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="icon" href="/favicon.svg" />
+        <meta property="og:image" content="https://djrlabs.fun/favicon.svg" />
       </Head>
 
-      <main className={styles.container}>
+      <main className={styles.pageShell}>
+        <div className={styles.backdrop} aria-hidden="true" />
+
         <header className={styles.header}>
-          <div className={styles.brand}>DJRLABS.</div>
-          <nav className={styles.nav}>
-            <a href="#projects">Projects</a>
+          <div className={styles.brandWrap}>
+            <span className={styles.logo}>DJR</span>
+            <span className={styles.brandText}>LABS</span>
+          </div>
+          <nav className={styles.nav} aria-label="Main navigation">
             <a href="#about">About</a>
+            <a href="#projects">Projects</a>
             <a href="#contact">Contact</a>
           </nav>
         </header>
 
         <section className={styles.hero}>
-          <h1>DJRLABS.</h1>
-          <p className={styles.tagline}>STEM, R&D, ARTS & DESIGN, SOFTWARE & HARDWARE.</p>
-          <p className={styles.lead}>Experiment. Prototype. Ship. A compact portfolio and playground for creative work inspired by the bold thinking of industry leaders.</p>
-          <div className={styles.ctaRow}>
-            <a className={styles.cta} href="#projects">View projects</a>
-            <a className={styles.ctaGhost} href="#contact">Get in touch</a>
+          <div className={styles.heroContent}>
+            <p className={styles.kicker}>Product engineering studio</p>
+            <h1>Build bold ideas into world-class systems.</h1>
+            <p className={styles.lead}>DJRLABS brings together science, design, engineering, and product thinking to turn future-facing concepts into elegant, high-performance experiences.</p>
+            <div className={styles.ctaRow}>
+              <a className={styles.primaryButton} href="#projects">View work</a>
+              <a className={styles.secondaryButton} href="#contact">Start a conversation</a>
+            </div>
+            <div className={styles.principles} aria-label="Core disciplines">
+              {principles.map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.showcaseCard} aria-label="Studio summary">
+            <div className={styles.showcaseLabel}>Studio focus</div>
+            <div className={styles.metrics}>
+              <div>
+                <strong>01</strong>
+                <span>Research</span>
+              </div>
+              <div>
+                <strong>02</strong>
+                <span>Prototype</span>
+              </div>
+              <div>
+                <strong>03</strong>
+                <span>Launch</span>
+              </div>
+            </div>
+            <div className={styles.quoteBox}>
+              <span>Reference vision</span>
+              <p>“Design for the future, engineer for the present, and ship with conviction.”</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="about" className={styles.section}
+        >
+          <div className={styles.sectionHeader}>
+            <p className={styles.sectionEyebrow}>About</p>
+            <h2>We build at the intersection of technology, creativity, and execution.</h2>
+          </div>
+          <div className={styles.aboutGrid}>
+            <p>DJRLABS is a modern product studio spanning STEM, R&D, arts & design, software, and hardware. The operating model is simple: investigate deeply, prototype rapidly, and deliver with clarity.</p>
+            <p>Inspired by the product-first thinking of leaders like Elon Musk, Jeff Bezos, Steve Jobs, and Jensen Huang, the studio blends engineering discipline with bold creative ambition.</p>
           </div>
         </section>
 
         <section id="projects" className={styles.section}>
-          <h2>Projects</h2>
-          <div className={styles.grid}>
-            {projects.map((p) => (
-              <article key={p.title} className={styles.card}>
-                <h3>{p.title}</h3>
-                <p>{p.desc}</p>
-                <div className={styles.cardLinks}>
-                  <a href={p.live} target="_blank" rel="noreferrer">Live</a>
-                  <a href={p.repo} target="_blank" rel="noreferrer">Repo</a>
+          <div className={styles.sectionHeader}>
+            <p className={styles.sectionEyebrow}>Selected work</p>
+            <h2>High-impact concepts across product, systems, and design.</h2>
+          </div>
+          <div className={styles.cardGrid}>
+            {projects.map((project) => (
+              <article key={project.title} className={styles.productCard}>
+                <div className={styles.cardTopline}>
+                  <span className={styles.cardTag}>Case study</span>
+                </div>
+                <h3>{project.title}</h3>
+                <p>{project.desc}</p>
+                <div className={styles.cardActions}>
+                  <a href={project.live} target="_blank" rel="noreferrer">Live preview</a>
+                  <a href={project.repo} target="_blank" rel="noreferrer">Repository</a>
                 </div>
               </article>
             ))}
           </div>
         </section>
 
-        <section id="about" className={styles.section}>
-          <h2>About</h2>
-          <p>Reference influences: Elon Musk · Jeff Bezos · Steve Jobs · Jensen Huang</p>
-          <p>DJRLABS explores intersections of hardware and software, creative research, and product design. This site is a lightweight portfolio and playground — replace the placeholder content with your projects and notes.</p>
-        </section>
-
         <section id="contact" className={styles.section}>
-          <h2>Contact</h2>
-          <p>If you’d like to get in touch, use the form below or email <a href="mailto:hello@djrlabs.fun">hello@djrlabs.fun</a>.</p>
+          <div className={styles.sectionHeader}>
+            <p className={styles.sectionEyebrow}>Contact</p>
+            <h2>Start building the next system that matters.</h2>
+          </div>
 
-          <form className={styles.form} action="https://formspree.io/f/your-form-id" method="POST">
-            <label>
-              <span>Name</span>
-              <input type="text" name="name" required />
-            </label>
-            <label>
-              <span>Email</span>
-              <input type="email" name="email" required />
-            </label>
-            <label>
-              <span>Message</span>
-              <textarea name="message" rows={4} required />
-            </label>
-            <button type="submit" className={styles.submit}>Send</button>
-          </form>
+          <div className={styles.contactWrap}>
+            <div className={styles.contactInfo}>
+              <p>For collaborations, product exploration, and strategic prototypes, reach out.</p>
+              <a href="mailto:hello@djrlabs.fun">hello@djrlabs.fun</a>
+            </div>
 
-          <div className={styles.social}>
-            <a href="https://github.com/hkra1" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="#" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a href="#" target="_blank" rel="noreferrer">Twitter</a>
+            <form className={styles.form} action="https://formspree.io/f/your-form-id" method="POST">
+              <label>
+                <span>Name</span>
+                <input type="text" name="name" placeholder="Your name" required />
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" placeholder="you@example.com" required />
+              </label>
+              <label>
+                <span>Project brief</span>
+                <textarea name="message" rows={4} placeholder="Tell us about your idea or challenge." required />
+              </label>
+              <button type="submit" className={styles.submitButton}>Send inquiry</button>
+            </form>
           </div>
         </section>
 
         <footer className={styles.footer}>
-          <small>© {new Date().getFullYear()} DJRLABS. Built with Next.js · Hosted on GitHub Pages.</small>
+          <span>© {new Date().getFullYear()} DJRLABS</span>
+          <span>Product engineering studio</span>
         </footer>
       </main>
     </>

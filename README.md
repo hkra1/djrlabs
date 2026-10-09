@@ -1,25 +1,30 @@
-# DJR Labs — Portfolio
+# README
 
-This repository hosts a lightweight Next.js portfolio for DJRLABS. The site is built as a static export and deployed to GitHub Pages.
+This repository contains the DJRLABS portfolio site. The site is intentionally a static, high-performance portfolio optimized for GitHub Pages and designed as a product-style landing experience.
 
-Local development
+## Local development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Build & export
+## Production build
 
 ```bash
 npm run build
-# output is exported to ./out
 ```
 
-Deployment
+The static export is generated into `./out` and is suitable for GitHub Pages deployment.
 
-GitHub Actions builds and deploys the site via GitHub Pages. The custom domain is set to `djrlabs.fun` in `public/CNAME`.
+## Repository standards
 
-Contributing
+- Security-first static setup
+- CI validation on main and pull requests
+- Dependabot updates enabled
+- Platform standards documented in `PLATFORM.md`
+- Security guidance in `SECURITY.md`
 
-Feel free to open issues or PRs. See `CONTRIBUTING.md` for guidelines.
+## Current version
+
+- v1.1.0
