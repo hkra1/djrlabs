@@ -38,7 +38,7 @@ jobs:
           test -d ./out && test -f ./out/CNAME && echo "Static export + CNAME ready"
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./out
 
