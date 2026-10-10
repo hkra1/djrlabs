@@ -32,8 +32,10 @@ jobs:
       - name: Build static site
         run: npm run build
 
-      - name: Check output exists
-        run: test -d ./out && echo "Static export generated"
+      - name: Ensure CNAME in export
+        run: |
+          echo 'djrlabs.fun' > ./out/CNAME
+          test -d ./out && test -f ./out/CNAME && echo "Static export + CNAME ready"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

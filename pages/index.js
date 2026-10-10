@@ -37,7 +37,10 @@ export default function Home() {
         <meta property="og:title" content="DJRLABS" />
         <meta property="og:description" content="STEM, R&D, ARTS & DESIGN, SOFTWARE & HARDWARE." />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://djrlabs.fun/" />
         <meta name="theme-color" content="#03060c" />
+        <meta name="robots" content="index,follow" />
+        <link rel="canonical" href="https://djrlabs.fun/" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -149,10 +152,10 @@ export default function Home() {
                 <h3>{project.title}</h3>
                 <p>{project.desc}</p>
                 <div className={styles.cardActions}>
-                  <a href={project.live} target="_blank" rel="noreferrer">
+                  <a href={project.live} target="_blank" rel="noopener noreferrer">
                     Live preview →
                   </a>
-                  <a href={project.repo} target="_blank" rel="noreferrer">
+                  <a href={project.repo} target="_blank" rel="noopener noreferrer">
                     Repository →
                   </a>
                 </div>
@@ -177,16 +180,31 @@ export default function Home() {
 
             <form
               className={styles.form}
-              action="https://formspree.io/f/your-form-id"
-              method="POST"
+              action="mailto:hello@djrlabs.fun"
+              method="post"
+              encType="text/plain"
             >
               <label>
                 <span>Name</span>
-                <input type="text" name="name" placeholder="Your name" required />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your name"
+                  required
+                  autoComplete="name"
+                  maxLength={120}
+                />
               </label>
               <label>
                 <span>Email</span>
-                <input type="email" name="email" placeholder="you@example.com" required />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  required
+                  autoComplete="email"
+                  maxLength={254}
+                />
               </label>
               <label>
                 <span>Project brief</span>
@@ -195,6 +213,7 @@ export default function Home() {
                   rows={4}
                   placeholder="Tell us about your idea or challenge."
                   required
+                  maxLength={4000}
                 />
               </label>
               <button type="submit" className={styles.submitButton}>
