@@ -1,30 +1,43 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.css';
 
 const projects = [
   {
-    title: 'Quantum Systems',
-    desc: 'Research-driven product concept blending robotics, software, and human-centered design.',
-    repo: '#',
-    live: '#',
+    title: 'Agent Taskboard',
+    desc: 'Collaborative task board for humans and AI agents using WebMCP. Built for the OpenAI WebMCP Challenge 2026.',
+    repo: 'https://github.com/hkra1/webmcp-agent-taskboard',
+    live: 'https://github.com/hkra1/webmcp-agent-taskboard',
+    tag: 'Open source',
   },
   {
-    title: 'Signal Studio',
-    desc: 'A design-first platform for prototyping interactive experiences and digital products.',
-    repo: '#',
-    live: '#',
+    title: 'Interactive STEM Platform',
+    desc: 'Open-source interactive STEM learning platform with simulations, AI tutors, and browser-based interactivity.',
+    repo: 'https://github.com/hkra1/interactive-stem-platform',
+    live: 'https://github.com/hkra1/interactive-stem-platform',
+    tag: 'Education',
   },
   {
-    title: 'Prototype Lab',
-    desc: 'Experimental work spanning software, hardware, interface systems, and product storytelling.',
-    repo: '#',
-    live: '#',
+    title: 'Security Ops Lab',
+    desc: 'Practical notes, automation experiments, and tooling around cloud security, risk analysis, and infrastructure operations.',
+    repo: 'https://github.com/hkra1/security-ops-lab',
+    live: 'https://github.com/hkra1/security-ops-lab',
+    tag: 'Security',
   },
 ];
 
 const principles = ['STEM', 'R&D', 'ARTS & DESIGN', 'SOFTWARE', 'HARDWARE'];
 
+const social = [
+  { label: 'GitHub', href: 'https://github.com/hkra1' },
+  { label: 'X / Twitter', href: 'https://x.com/mehkra1' },
+  { label: 'Email', href: 'mailto:hello@djrlabs.fun' },
+];
+
 export default function Home() {
+  const router = useRouter();
+  const sent = router.query.sent === '1';
+
   return (
     <>
       <Head>
@@ -67,6 +80,9 @@ export default function Home() {
             <a href="#about">About</a>
             <a href="#projects">Projects</a>
             <a href="#contact">Contact</a>
+            <a href="https://github.com/hkra1" target="_blank" rel="noopener noreferrer">
+              GitHub
+            </a>
           </nav>
         </header>
 
@@ -134,7 +150,11 @@ export default function Home() {
             <div className={styles.aboutCard}>
               <p>
                 Inspired by product-first thinking from leaders across technology and design, the
-                studio blends engineering discipline with bold creative ambition.
+                studio blends engineering discipline with bold creative ambition. Explore open work on{' '}
+                <a href="https://github.com/hkra1" target="_blank" rel="noopener noreferrer">
+                  GitHub
+                </a>
+                .
               </p>
             </div>
           </div>
@@ -148,12 +168,12 @@ export default function Home() {
           <div className={styles.cardGrid}>
             {projects.map((project) => (
               <article key={project.title} className={styles.productCard}>
-                <span className={styles.cardTag}>Case study</span>
+                <span className={styles.cardTag}>{project.tag}</span>
                 <h3>{project.title}</h3>
                 <p>{project.desc}</p>
                 <div className={styles.cardActions}>
                   <a href={project.live} target="_blank" rel="noopener noreferrer">
-                    Live preview →
+                    View project →
                   </a>
                   <a href={project.repo} target="_blank" rel="noopener noreferrer">
                     Repository →
@@ -173,59 +193,99 @@ export default function Home() {
           <div className={styles.contactWrap}>
             <div className={styles.contactInfo}>
               <p>
-                For collaborations, product exploration, and strategic prototypes, reach out.
+                For collaborations, product exploration, and strategic prototypes, reach out. Messages
+                from this form are delivered to the studio inbox.
               </p>
               <a href="mailto:hello@djrlabs.fun">hello@djrlabs.fun</a>
+              <div className={styles.socialRow}>
+                {social.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target={item.href.startsWith('http') ? '_blank' : undefined}
+                    rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
             </div>
 
-            <form
-              className={styles.form}
-              action="mailto:hello@djrlabs.fun"
-              method="post"
-              encType="text/plain"
-            >
-              <label>
-                <span>Name</span>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your name"
-                  required
-                  autoComplete="name"
-                  maxLength={120}
-                />
-              </label>
-              <label>
-                <span>Email</span>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="you@example.com"
-                  required
-                  autoComplete="email"
-                  maxLength={254}
-                />
-              </label>
-              <label>
-                <span>Project brief</span>
-                <textarea
-                  name="message"
-                  rows={4}
-                  placeholder="Tell us about your idea or challenge."
-                  required
-                  maxLength={4000}
-                />
-              </label>
-              <button type="submit" className={styles.submitButton}>
-                Send inquiry
-              </button>
-            </form>
+            {sent ? (
+              <div className={styles.formSuccess} role="status">
+                <p className={styles.sectionEyebrow}>Message sent</p>
+                <h3>Thanks — your inquiry is in the queue.</h3>
+                <p>
+                  We will reply to the email you provided. You can also write directly to{' '}
+                  <a href="mailto:hello@djrlabs.fun">hello@djrlabs.fun</a>.
+                </p>
+                <a className={styles.secondaryButton} href="/#contact">
+                  Send another message
+                </a>
+              </div>
+            ) : (
+              <form
+                className={styles.form}
+                action="https://formsubmit.co/hkr96@outlook.in"
+                method="POST"
+              >
+                <input type="hidden" name="_subject" value="DJRLABS website inquiry" />
+                <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_next" value="https://djrlabs.fun/?sent=1#contact" />
+                <input type="text" name="_honey" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+
+                <label>
+                  <span>Name</span>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Your name"
+                    required
+                    autoComplete="name"
+                    maxLength={120}
+                  />
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    required
+                    autoComplete="email"
+                    maxLength={254}
+                  />
+                </label>
+                <label>
+                  <span>Project brief</span>
+                  <textarea
+                    name="message"
+                    rows={4}
+                    placeholder="Tell us about your idea or challenge."
+                    required
+                    maxLength={4000}
+                  />
+                </label>
+                <button type="submit" className={styles.submitButton}>
+                  Send inquiry
+                </button>
+              </form>
+            )}
           </div>
         </section>
 
         <footer className={styles.footer}>
           <span>© {new Date().getFullYear()} DJRLABS</span>
-          <span>Product engineering studio</span>
+          <span className={styles.footerLinks}>
+            <a href="https://github.com/hkra1" target="_blank" rel="noopener noreferrer">
+              GitHub
+            </a>
+            <a href="https://x.com/mehkra1" target="_blank" rel="noopener noreferrer">
+              X
+            </a>
+            <a href="mailto:hello@djrlabs.fun">Email</a>
+          </span>
         </footer>
       </main>
     </>

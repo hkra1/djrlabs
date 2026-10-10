@@ -401,6 +401,7 @@
 /* —— Sections —— */
 .section {
   padding-top: 64px;
+  scroll-margin-top: 88px;
 }
 
 .sectionHeader {
@@ -430,6 +431,16 @@
   line-height: 1.75;
   font-size: 0.98rem;
   transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.aboutCard a {
+  color: var(--cyan);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.aboutCard a:hover {
+  color: var(--mint);
 }
 
 .aboutCard:hover {
@@ -551,12 +562,41 @@
   color: var(--mint);
 }
 
-.form {
+.socialRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.socialRow a {
+  font-size: 0.88rem;
+}
+
+.form,
+.formSuccess {
   composes: glass;
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 24px;
+}
+
+.formSuccess h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+}
+
+.formSuccess p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.formSuccess a {
+  color: var(--cyan);
+  font-weight: 600;
 }
 
 .form label {
@@ -621,6 +661,22 @@
   border-radius: var(--radius-md);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+}
+
+.footerLinks {
+  display: inline-flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footerLinks a {
+  color: var(--cyan);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footerLinks a:hover {
+  color: var(--mint);
 }
 
 /* —— Responsive —— */
