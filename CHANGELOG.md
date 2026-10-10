@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-10-10
+### Added
+- Scroll progress indicator and back-to-top control.
+- Navbar active-section highlighting (IntersectionObserver).
+- Responsive mobile navigation drawer with keyboard support.
+- Hero staggered entrance animations and refined primary CTA shine.
+- Section reveal animations on scroll.
+- Expanded multi-column footer with navigation and connect groups.
+
+### Changed
+- Stronger glassmorphism tokens, hover states, and card tilt interactions.
+- Improved focus-visible, reduced-motion, and accessibility patterns.
+- Polished button micro-interactions and project card elevation.
+
 ## [1.1.0] - 2026-10-09
 ### Added
 - High-end startup-style portfolio design and responsive layout.
