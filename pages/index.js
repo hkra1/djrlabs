@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from '../styles/Home.module.css';
 
 const projects = [
@@ -34,9 +35,102 @@ const social = [
   { label: 'Email', href: 'mailto:hello@djrlabs.fun' },
 ];
 
+const navLinks = [
+  { href: '#about', id: 'about', label: 'About' },
+  { href: '#projects', id: 'projects', label: 'Projects' },
+  { href: '#contact', id: 'contact', label: 'Contact' },
+  { href: 'https://github.com/hkra1', id: 'github', label: 'GitHub', external: true },
+];
+
 export default function Home() {
   const router = useRouter();
   const sent = router.query.sent === '1';
+  const [activeSection, setActiveSection] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [showTop, setShowTop] = useState(false);
+  const [heroReady, setHeroReady] = useState(false);
+  const observerRef = useRef(null);
+
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+
+  useEffect(() => {
+    setHeroReady(true);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight =
+        document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const pct = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+      setProgress(pct);
+      setScrolled(scrollTop > 24);
+      setShowTop(scrollTop > 480);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const sectionIds = ['about', 'projects', 'contact'];
+    const elements = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    if (!elements.length) return undefined;
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      { rootMargin: '-25% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75] }
+    );
+
+    elements.forEach((el) => observerRef.current.observe(el));
+    return () => observerRef.current?.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    if (!revealEls.length) return undefined;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(styles.revealVisible);
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    revealEls.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <>
@@ -64,6 +158,16 @@ export default function Home() {
         <meta property="og:image" content="https://djrlabs.fun/favicon.svg" />
       </Head>
 
+      <div
+        className={styles.progressBar}
+        style={{ width: `${progress}%` }}
+        role="progressbar"
+        aria-valuenow={Math.round(progress)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="Page scroll progress"
+      />
+
       <div className={styles.backdrop} aria-hidden="true">
         <div className={`${styles.orb} ${styles.orbA}`} />
         <div className={`${styles.orb} ${styles.orbB}`} />
@@ -71,30 +175,79 @@ export default function Home() {
       </div>
 
       <main className={styles.pageShell}>
-        <header className={styles.header}>
-          <a href="/" className={styles.brandWrap}>
+        <header className={`${styles.header} ${scrolled ? styles.headerScrolled : ''}`}>
+          <a href="/" className={styles.brandWrap} onClick={closeMenu}>
             <span className={styles.logo}>DJR</span>
             <span className={styles.brandText}>LABS</span>
           </a>
+
           <nav className={styles.nav} aria-label="Main navigation">
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-            <a href="https://github.com/hkra1" target="_blank" rel="noopener noreferrer">
-              GitHub
-            </a>
+            {navLinks.map((link) => (
+              <a
+                key={link.id}
+                href={link.href}
+                data-active={!link.external && activeSection === link.id ? 'true' : undefined}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
+
+          <button
+            type="button"
+            className={styles.menuToggle}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            <span />
+          </button>
+
+          <div
+            id="mobile-nav"
+            className={styles.mobileNav}
+            data-open={menuOpen ? 'true' : 'false'}
+            hidden={!menuOpen}
+          >
+            {navLinks.map((link) => (
+              <a
+                key={link.id}
+                href={link.href}
+                data-active={!link.external && activeSection === link.id ? 'true' : undefined}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+                onClick={closeMenu}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
         </header>
 
         <section className={styles.hero}>
           <div className={styles.heroContent}>
-            <p className={styles.kicker}>Product engineering studio</p>
-            <h1>Build bold ideas into world-class systems.</h1>
-            <p className={styles.lead}>
+            <p
+              className={`${styles.kicker} ${styles.reveal} ${heroReady ? styles.revealVisible : ''} ${styles.delay1}`}
+            >
+              Product engineering studio
+            </p>
+            <h1
+              className={`${styles.reveal} ${heroReady ? styles.revealVisible : ''} ${styles.delay2}`}
+            >
+              Build bold ideas into world-class systems.
+            </h1>
+            <p
+              className={`${styles.lead} ${styles.reveal} ${heroReady ? styles.revealVisible : ''} ${styles.delay3}`}
+            >
               DJRLABS brings together science, design, engineering, and product thinking to turn
               future-facing concepts into elegant, high-performance experiences.
             </p>
-            <div className={styles.ctaRow}>
+            <div
+              className={`${styles.ctaRow} ${styles.reveal} ${heroReady ? styles.revealVisible : ''} ${styles.delay4}`}
+            >
               <a className={styles.primaryButton} href="#projects">
                 View work
               </a>
@@ -102,14 +255,20 @@ export default function Home() {
                 Start a conversation
               </a>
             </div>
-            <div className={styles.principles} aria-label="Core disciplines">
+            <div
+              className={`${styles.principles} ${styles.reveal} ${heroReady ? styles.revealVisible : ''} ${styles.delay5}`}
+              aria-label="Core disciplines"
+            >
               {principles.map((item) => (
                 <span key={item}>{item}</span>
               ))}
             </div>
           </div>
 
-          <div className={styles.showcaseCard} aria-label="Studio summary">
+          <div
+            className={`${styles.showcaseCard} ${styles.reveal} ${heroReady ? styles.revealVisible : ''} ${styles.delay3}`}
+            aria-label="Studio summary"
+          >
             <div className={styles.showcaseLabel}>Studio focus</div>
             <div className={styles.metrics}>
               <div>
@@ -134,20 +293,20 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="about" className={styles.section}>
-          <div className={styles.sectionHeader}>
+        <section id="about" className={styles.section} data-reveal>
+          <div className={`${styles.sectionHeader} ${styles.reveal}`}>
             <p className={styles.sectionEyebrow}>About</p>
             <h2>We build at the intersection of technology, creativity, and execution.</h2>
           </div>
           <div className={styles.aboutGrid}>
-            <div className={styles.aboutCard}>
+            <div className={`${styles.aboutCard} ${styles.reveal} ${styles.delay1}`}>
               <p>
                 DJRLABS is a modern product studio spanning STEM, R&amp;D, arts &amp; design,
                 software, and hardware. The operating model is simple: investigate deeply,
                 prototype rapidly, and deliver with clarity.
               </p>
             </div>
-            <div className={styles.aboutCard}>
+            <div className={`${styles.aboutCard} ${styles.reveal} ${styles.delay2}`}>
               <p>
                 Inspired by product-first thinking from leaders across technology and design, the
                 studio blends engineering discipline with bold creative ambition. Explore open work on{' '}
@@ -160,14 +319,17 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="projects" className={styles.section}>
-          <div className={styles.sectionHeader}>
+        <section id="projects" className={styles.section} data-reveal>
+          <div className={`${styles.sectionHeader} ${styles.reveal}`}>
             <p className={styles.sectionEyebrow}>Selected work</p>
             <h2>High-impact concepts across product, systems, and design.</h2>
           </div>
           <div className={styles.cardGrid}>
-            {projects.map((project) => (
-              <article key={project.title} className={styles.productCard}>
+            {projects.map((project, i) => (
+              <article
+                key={project.title}
+                className={`${styles.productCard} ${styles.reveal} ${styles[`delay${Math.min(i + 1, 5)}`] || ''}`}
+              >
                 <span className={styles.cardTag}>{project.tag}</span>
                 <h3>{project.title}</h3>
                 <p>{project.desc}</p>
@@ -184,14 +346,14 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="contact" className={styles.section}>
-          <div className={styles.sectionHeader}>
+        <section id="contact" className={styles.section} data-reveal>
+          <div className={`${styles.sectionHeader} ${styles.reveal}`}>
             <p className={styles.sectionEyebrow}>Contact</p>
             <h2>Start building the next system that matters.</h2>
           </div>
 
           <div className={styles.contactWrap}>
-            <div className={styles.contactInfo}>
+            <div className={`${styles.contactInfo} ${styles.reveal} ${styles.delay1}`}>
               <p>
                 For collaborations, product exploration, and strategic prototypes, reach out. Messages
                 from this form are delivered to the studio inbox.
@@ -212,7 +374,7 @@ export default function Home() {
             </div>
 
             {sent ? (
-              <div className={styles.formSuccess} role="status">
+              <div className={`${styles.formSuccess} ${styles.reveal} ${styles.delay2}`} role="status">
                 <p className={styles.sectionEyebrow}>Message sent</p>
                 <h3>Thanks — your inquiry is in the queue.</h3>
                 <p>
@@ -225,7 +387,7 @@ export default function Home() {
               </div>
             ) : (
               <form
-                className={styles.form}
+                className={`${styles.form} ${styles.reveal} ${styles.delay2}`}
                 action="https://formsubmit.co/hkr96@outlook.in"
                 method="POST"
               >
@@ -276,18 +438,43 @@ export default function Home() {
         </section>
 
         <footer className={styles.footer}>
-          <span>© {new Date().getFullYear()} DJRLABS</span>
-          <span className={styles.footerLinks}>
+          <div className={styles.footerBrand}>
+            <strong>DJR LABS</strong>
+            <p>Product engineering studio spanning STEM, R&amp;D, design, software, and hardware.</p>
+          </div>
+          <div className={styles.footerCol}>
+            <h4>Navigate</h4>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+          </div>
+          <div className={styles.footerCol}>
+            <h4>Connect</h4>
             <a href="https://github.com/hkra1" target="_blank" rel="noopener noreferrer">
               GitHub
             </a>
             <a href="https://x.com/mehkra1" target="_blank" rel="noopener noreferrer">
-              X
+              X / Twitter
             </a>
             <a href="mailto:hello@djrlabs.fun">Email</a>
-          </span>
+          </div>
+          <div className={styles.footerBottom}>
+            <span>© {new Date().getFullYear()} DJRLABS. All rights reserved.</span>
+            <span>Built for clarity, performance, and craft.</span>
+          </div>
         </footer>
       </main>
+
+      <button
+        type="button"
+        className={`${styles.backToTop} ${showTop ? styles.backToTopVisible : ''}`}
+        onClick={scrollToTop}
+        aria-label="Back to top"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M12 19V5M5 12l7-7 7 7" />
+        </svg>
+      </button>
     </>
   );
 }
