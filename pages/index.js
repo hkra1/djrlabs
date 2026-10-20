@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 
 const projects = [
@@ -28,11 +29,73 @@ const projects = [
 
 const principles = ['STEM', 'R&D', 'ARTS & DESIGN', 'SOFTWARE', 'HARDWARE'];
 
+const WHATSAPP_NUMBER = '917004317220';
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  'Hi DJRLABS — I have a project idea.'
+)}`;
+
 const social = [
   { label: 'GitHub', href: 'https://github.com/hkra1' },
   { label: 'X / Twitter', href: 'https://x.com/mehkra1' },
   { label: 'Email', href: 'mailto:hello@djrlabs.fun' },
+  { label: 'WhatsApp', href: WHATSAPP_URL },
 ];
+
+const COOKIE_KEY = 'djrlabs_cookie_consent';
+
+function CookieBanner() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem(COOKIE_KEY);
+      if (!stored) setVisible(true);
+    } catch {
+      setVisible(true);
+    }
+  }, []);
+
+  const accept = () => {
+    try {
+      window.localStorage.setItem(COOKIE_KEY, 'essential');
+    } catch {
+      /* ignore */
+    }
+    setVisible(false);
+  };
+
+  if (!visible) return null;
+
+  return (
+    <div className={styles.cookieBanner} role="dialog" aria-live="polite" aria-label="Cookie notice">
+      <p>
+        This site uses essential local storage only (preference memory). No tracking cookies. Accept to
+        continue with the highest-standard, privacy-first experience.
+      </p>
+      <button type="button" className={styles.cookieAccept} onClick={accept}>
+        Accept essential
+      </button>
+    </div>
+  );
+}
+
+function WhatsAppFab() {
+  return (
+    <a
+      className={styles.whatsappFab}
+      href={WHATSAPP_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat with DJRLABS on WhatsApp"
+      title="WhatsApp"
+    >
+      <span className={styles.whatsappIcon} aria-hidden="true">
+        ✆
+      </span>
+      <span className={styles.whatsappLabel}>WhatsApp</span>
+    </a>
+  );
+}
 
 export default function Home() {
   const router = useRouter();
@@ -194,9 +257,17 @@ export default function Home() {
             <div className={styles.contactInfo}>
               <p>
                 For collaborations, product exploration, and strategic prototypes, reach out. Messages
-                from this form are delivered to the studio inbox.
+                from this form are delivered to the studio inbox. Prefer a direct line? Use WhatsApp.
               </p>
               <a href="mailto:hello@djrlabs.fun">hello@djrlabs.fun</a>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.whatsappInline}
+              >
+                WhatsApp · +91 70043 17220
+              </a>
               <div className={styles.socialRow}>
                 {social.map((item) => (
                   <a
@@ -217,7 +288,11 @@ export default function Home() {
                 <h3>Thanks — your inquiry is in the queue.</h3>
                 <p>
                   We will reply to the email you provided. You can also write directly to{' '}
-                  <a href="mailto:hello@djrlabs.fun">hello@djrlabs.fun</a>.
+                  <a href="mailto:hello@djrlabs.fun">hello@djrlabs.fun</a> or reach us on{' '}
+                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                    WhatsApp
+                  </a>
+                  .
                 </p>
                 <a className={styles.secondaryButton} href="/#contact">
                   Send another message
@@ -285,9 +360,15 @@ export default function Home() {
               X
             </a>
             <a href="mailto:hello@djrlabs.fun">Email</a>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+              WhatsApp
+            </a>
           </span>
         </footer>
       </main>
+
+      <WhatsAppFab />
+      <CookieBanner />
     </>
   );
 }
